@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#101b20">
+<title>Ragantara Studio</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#101b20;color:#f1f5f4}
+header{background:linear-gradient(135deg,#172a30,#203b40);padding:18px 14px;text-align:center;border-bottom:2px solid #b18b48}
+.brand{display:flex;align-items:center;justify-content:center;gap:12px}
+.brand img{width:66px;height:66px;object-fit:contain;border-radius:50%;background:#172a30}
+header h1{margin:0;color:#e5bd72;font-size:23px} header p{margin:7px 0 0;color:#b8c8c5;font-size:12px}
+nav{display:flex;background:#20353b;position:sticky;top:0;z-index:10}
+nav button{flex:1;padding:14px 3px;border:0;background:transparent;color:white;font-size:12px}
+nav button.active{background:#b18b48;color:#101b20;font-weight:bold}
+.container{padding:14px;max-width:760px;margin:auto}.page{display:none}.page.active{display:block}
+h2{color:#e5bd72;font-size:20px}label{display:block;margin-top:14px;margin-bottom:6px;color:#e5bd72;font-size:14px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #52666b;border-radius:8px;background:#20353b;color:white;font-size:14px}
+textarea{min-height:95px;resize:vertical}
+button.action{width:100%;;padding:13px;margin-top:14px;border:0;border-radius:8px;background:#b18b48;color:#101b20;font-weight:bold;font-size:15px}
+button.secondary{background:#31515a;color:white}button.delete{background:#803c3c;color:white}
+.result{white-space:pre-wrap;background:#172a30;border:1px solid #b18b48;padding:14px;border-radius:8px;margin-top:14px;line-height:1.55;font-size:13px;overflow-wrap:anywhere}
+.card{background:#20353b;padding:14px;border-radius:8px;margin:12px 0;border-left:3px solid #b18b48}
+.small{font-size:12px;color:#aebdbb}footer{text-align:center;padding:24px 10px;color:#829795;font-size:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:420px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><img src="ragantara-icon.png" alt="Ragantara"><div><h1>RAGANTARA STUDIO</h1><p>AI Cinematic Story &amp; Prompt Generator</p></div></div>
+</header>
+<nav>
+ <button class="active" onclick="showPage('buat',this)">✨ Buat Prompt</button>
+ <button onclick="showPage('riwayat',this)">📚 Riwayat</button>
+ <button onclick="showPage('karakter',this)">🐉 Karakter</button>
+</nav>
+<div class="container">
+<section id="buat" class="page active">
+<h2>✨ Buat Prompt Cerita</h2>
+<label>Judul Adegan</label><input id="judul" placeholder="Contoh: Pohon Akar Bergerak">
+<div class="row">
+<div><label>Jumlah Scene</label><select id="scene"></select></div>
+<div><label>Durasi Video</label><select id="durasi"></select></div>
+</div>
+<label>Rasio Video</label><select id="rasio"><option>9:16 Vertical</option><option>16:9 Landscape</option><option>1:1 Square</option></select>
+<label>Gaya Visual</label><select id="gaya"></select>
+<label>Lokasi Cerita</label><select id="lokasi"></select>
+<label>Aksi / Alur Cerita</label><textarea id="cerita" placeholder="Tuliskan urutan kejadian dalam cerita Ragantara..."></textarea>
+<label>Ekspresi / Emosi</label><select id="emosi"></select>
+<label>Gerakan Kamera</label><select id="kamera"></select>
+<label>Pencahayaan</label><select id="cahaya"></select>
+<label>Detail Tambahan (Opsional)</label><textarea id="tambahan" placeholder="Tambahkan detail khusus jika diperlukan..."></textarea>
+<button class="action" onclick="buatPrompt()">GENERATE PROMPT</button>
+<div id="hasil" class="result" style="display:none"></div>
+<button id="salin" class="action secondary" style="display:none" onclick="salinPrompt()">📋 SALIN PROMPT</button>
+<button id="simpan" class="action secondary" style="display:none" onclick="simpanPrompt()">💾 SIMPAN KE RIWAYAT</button>
+</section>
+<section id="riwayat" class="page">
+<h2>📚 Riwayat Prompt</h2><p class="small">Prompt tersimpan di perangkat ini dan dapat dibuka tanpa internet.</p>
+<div id="daftarRiwayat"></div><button class="action delete" onclick="hapusSemua()">HAPUS SEMUA RIWAYAT</button>
+</section>
+<section id="karakter" class="page">
+<h2>🐉 Karakter Ragantara V2</h2>
+<div class="card"><h3>RAGANTARA V2</h3>
+<p>Ragantara adalah makhluk fantasi perpaduan naga dan serigala. Memiliki kepala menyerupai naga dengan moncong tegas, tepat dua tanduk panjang yang melengkung ke belakang.</p>
+<p>Tubuhnya atletis dan berotot dengan empat kaki kuat. Bulu tebal berwarna hitam arang tumbuh di kepala, leher, bahu, dan sepanjang punggung.</p>
+<p>Matanya tajam, cerdas, dan bijaksana. Ekornya panjang dan berbulu dengan ujung melengkung membentuk spiral.</p>
+<p>Ragantara memiliki aura misterius, gagah, dan merupakan penjaga hutan ajaib.</p></div>
+<h3>Aturan Konsistensi Karakter</h3><div class="card">- Selalu memiliki tepat dua tanduk utama.<br>- Tidak memiliki sayap.<br>- Selalu berjalan dengan empat kaki.<br>- Bentuk kepala naga dan moncong harus konsisten.<br>- Bulu hitam arang tetap sama.<br>- Ukuran tubuh dan bentuk ekor tidak berubah.<br>- Jangan mengubah desain karakter antar-scene.</div>
+<button class="action secondary" onclick="salinKarakter()">📋 SALIN DESKRIPSI KARAKTER</button>
+</section>
+</div>
+<footer>RAGANTARA STUDIO<br>Cinematic Offline AI Prompt Generator</footer>
+<script>
+const options={
+scene:Array.from({length:20},(_,i)=>`Scene ${i+1}`),
+durasi:["5 detik","6 detik","7 detik","8 detik","9 detik","10 detik","12 detik","15 detik","18 detik","20 detik","22 detik","25 detik","30 detik","35 detik","40 detik","45 detik","50 detik","60 detik","90 detik","120 detik"],
+gaya:["High-detail cinematic 3D fantasy animation","Pixar-inspired 3D cartoon animation","Ultra realistic fantasy CGI","Photorealistic cinematic fantasy","DreamWorks-inspired 3D animation","Anime fantasy illustration","Japanese anime cinematic style","Disney-inspired magical animation","Dark fantasy cinematic style","Epic fantasy adventure animation","Whimsical children's storybook style","Watercolor fantasy illustration","Detailed digital fantasy painting","Stylized 3D fantasy world","Stop motion animation style","Clay animation style","Vintage fantasy illustration","Realistic wildlife documentary style","Magical surreal fantasy style","Premium cinematic game animation"],
+lokasi:["A mysterious magical forest","Ancient enchanted forest","Dark haunted forest","Beautiful green valley","Mountain wilderness","Deep jungle with giant trees","Magical mushroom forest","Ancient ruins covered in vines","Hidden waterfall","Crystal cave","Underground fantasy kingdom","Magical lake surrounded by flowers","Snow-covered forest","Volcanic fantasy landscape","Floating island in the sky","Ancient dragon sanctuary","Misty forest at sunrise","Moonlit forest at midnight","Abandoned magical village","Enchanted forest riverbank"],
+emosi:["Alert and courageous","Curious and observant","Surprised and shocked","Angry and fierce","Calm and peaceful","Sad and emotional","Happy and cheerful","Confused and puzzled","Fearful and cautious","Brave and determined","Suspicious and watchful","Excited and enthusiastic","Wise and thoughtful","Protective and caring","Lonely and melancholic","Playful and mischievous","Exhausted and struggling","Confident and powerful","Shocked but recovering","Gentle and compassionate"],
+kamera:["Cinematic tracking shot","Slow camera movement","Dynamic action camera","Wide establishing shot","Close-up cinematic shot","Extreme close-up detail shot","Medium character shot","Low-angle hero shot","High-angle camera shot","Bird's-eye view","Over-the-shoulder shot","Slow dolly-in movement","Slow dolly-out movement","Camera pan from left to right","Camera pan from right to left","Smooth 360-degree orbit shot","Steadicam follow movement","Handheld cinematic movement","Crane camera movement","Fast tracking action shot"],
+cahaya:["Natural cinematic lighting","Mysterious forest lighting","Golden sunlight","Dramatic atmospheric lighting","Soft magical glowing light","Moonlight illumination","Sunrise golden lighting","Sunset warm lighting","Volumetric light rays","Soft diffused lighting","Dark moody lighting","Blue mystical lighting","Green enchanted glow","Firelight illumination","Lightning storm illumination","Bioluminescent forest lighting","Backlit cinematic silhouette","High contrast dramatic lighting","Dreamy ethereal lighting","Overcast cloudy daylight"]
+};
+function fillSelect(id,arr,selected){const s=document.getElementById(id);arr.forEach((v,i)=>{let o=document.createElement("option");o.textContent=v;if(v===selected)s.selectedIndex=i;s.appendChild(o)});}
+Object.keys(options).forEach(k=>fillSelect(k,options[k],k==="scene"?"Scene 3":k==="durasi"?"18 detik":null));
+const karakter=`MAIN CHARACTER: RAGANTARA V2.\nA powerful fantasy creature combining a dragon and a wolf.\nHe has a dragon-shaped head with a strong defined snout and exactly two long horns curving backward.\nHis body is athletic and muscular, supported by four powerful legs with sharp claws.\nThick charcoal-black fur covers his head, neck, shoulders and back.\nHe has sharp, intelligent and wise eyes. His long furry tail ends in a distinctive spiral curl.\nRagantara must maintain exactly the same appearance, body proportions, colors, silhouette and facial design in every scene.\nIMPORTANT: Exactly two horns. No wings. Four-legged creature. No humanoid body. No armor or clothing. Do not change the character design.`;
+let promptTerakhir="";
+function showPage(id,t){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));document.getElementById(id).classList.add("active");t.classList.add("active");if(id==="riwayat")tampilkanRiwayat();}
+function fmt(ms){let m=Math.floor(ms/60000),s=(ms%60000)/1000;return String(m).padStart(2,"0")+":"+s.toFixed(2).padStart(5,"0");}
+function pecah(teks,n){let a=teks.replace(/\\r/g,"").split(/\\n+|(?<=[.!?])\\s+/).map(x=>x.trim()).filter(Boolean);if(!a.length)return Array(n).fill(teks);let out=[];for(let i=0;i<n;i++){let x=Math.floor(i*a.length/n),y=Math.floor((i+1)*a.length/n),p=a.slice(x,y);if(!p.length)p=[a[Math.min(x,a.length-1)]];out.push(p.join(" "));}return out;}
+function cameraText(v,i,n){let map={"Cinematic tracking shot":"Use a smooth tracking camera that follows Ragantara from a clear side angle, maintaining consistent distance and framing.","Slow camera movement":"Use a slow, controlled camera movement with a stable horizon and gradual framing changes.","Dynamic action camera":"Use controlled dynamic camera movement that follows the action without losing sight of Ragantara.","Wide establishing shot":"Begin with a wide shot from a slightly elevated front angle, showing Ragantara and the surrounding environment clearly.","Close-up cinematic shot":"Use a medium close-up from the front three-quarter angle, clearly showing Ragantara's facial expression.","Extreme close-up detail shot":"Use a carefully framed extreme close-up focusing on the important visual detail without distorting anatomy.","Medium character shot":"Use a medium side-angle shot showing Ragantara's upper body and important movements.","Low-angle hero shot":"Position the camera low near the ground, looking slightly upward to emphasize Ragantara's powerful appearance.","High-angle camera shot":"Position the camera above Ragantara, looking downward while keeping his body and surroundings visible.","Bird's-eye view":"Use a stable overhead camera looking directly down, clearly showing character and environmental positions.","Over-the-shoulder shot":"Position the camera behind Ragantara's shoulder, showing what he is observing in front of him.","Slow dolly-in movement":"Move the camera slowly forward toward Ragantara while maintaining smooth and stable framing.","Slow dolly-out movement":"Move the camera gradually backward to reveal more of the surrounding environment.","Camera pan from left to right":"Pan the camera smoothly from left to right while keeping the subject visually connected to the environment.","Camera pan from right to left":"Pan the camera smoothly from right to left with controlled movement and consistent framing.","Smooth 360-degree orbit shot":"Move the camera in a smooth controlled orbit around Ragantara without changing his anatomy or proportions.","Steadicam follow movement":"Follow Ragantara using a stabilized camera positioned slightly behind and to one side of him.","Handheld cinematic movement":"Use subtle controlled handheld movement, avoiding excessive shake or unstable framing.","Crane camera movement":"Use a smooth crane movement that gradually changes camera height while keeping the subject visible.","Fast tracking action shot":"Follow Ragantara rapidly from a rear three-quarter angle during action, with smooth motion and readable framing."};return (map[v]||map["Cinematic tracking shot"])+" "+(i===1?"Establish the character's position and the surrounding environment clearly.":i===n?"Keep the final action clearly visible and finish with a stable cinematic composition.":"Maintain the same camera direction and spatial orientation established in the previous scene.");}
+function buatTimeline(d,n,story){let parts=pecah(story,n),out=[];for(let i=0;i<n;i++){let a=Math.round(i*d*1000/n),b=Math.round((i+1)*d*1000/n),x=a+Math.round((b-a)/3),y=a+Math.round(2*(b-a)/3);let first=i===0?"OPENING: Establish the scene. Show Ragantara's initial position, natural body movement, and the surrounding environment.":"CONTINUATION: Continue directly from the previous scene's final body position, movement, and environmental conditions.";let mid=i===n-1?"CLIMAX: Show the most important action or dramatic moment described in the story with clear physical movement.":"DEVELOPMENT: Progress the story action naturally. Show a clear interaction between Ragantara and the environment.";let end=i===n-1?"FINAL ENDING: Complete the story action naturally. End with a clear, stable visual moment.":"SCENE ENDING: Finish this stage of the action and establish the exact position needed for the next scene.";out.push(`SCENE ${i+1} — ${fmt(a)} TO ${fmt(b)}\nSTORY ACTION: ${parts[i]}\n${fmt(a)} - ${fmt(x)} ${first}\n${fmt(x)} - ${fmt(y)} ${mid}\n${fmt(y)} - ${fmt(b)} ${end}\nCAMERA: ${cameraText(document.getElementById("kamera").value,i+1,n)}\nSCENE BOUNDARY: End exactly at ${fmt(b)}. Preserve final character position and environment for the next scene.`);}return out.join("\\n\\n");}
+function buatPrompt(){let judul=document.getElementById("judul").value.trim(),d=parseInt(document.getElementById("durasi").value,10),n=parseInt(document.getElementById("scene").value.replace(/\\D/g,""),10),story=document.getElementById("cerita").value.trim(),cahaya=document.getElementById("cahaya").value;if(!story){alert("Silakan isi alur cerita terlebih dahulu.");return;}let timeline=buatTimeline(d,n,story);promptTerakhir=`TITLE: ${judul||"Ragantara Fantasy Adventure"}\nVIDEO SPECIFICATIONS: TOTAL DURATION ${d} seconds. EXACTLY ${n} scenes. ASPECT RATIO: ${document.getElementById("rasio").value}. VISUAL STYLE: ${document.getElementById("gaya").value}. LOCATION: ${document.getElementById("lokasi").value}.\n\nMAIN CHARACTER — RAGANTARA V2:\n${karakter}\n\nSTORY OVERVIEW:\n${story}\n\nCHARACTER EMOTION: ${document.getElementById("emosi").value}.\n\nCINEMATIC SCENE STRUCTURE:\nFollow the exact timeline and scene boundaries below. Each scene must have its own beginning, ending, action sequence and camera direction.\n${timeline}\n\nCHARACTER MOVEMENT AND ANIMATION:\nCreate believable four-legged animal locomotion. Shift body weight naturally during walking, running, jumping, turning, stopping and reacting. Keep anatomy consistent. Use smooth acceleration and deceleration. Show preparation, action and recovery for fast movements. Maintain momentum, gravity, balance and physical contact.\n\nCAMERA AND CINEMATOGRAPHY:\nUse ${document.getElementById("kamera").value}. Keep Ragantara recognizable during important actions. Use smooth transitions; avoid random movement, sudden zooms and confusing perspective changes.\n\nCONTINUITY:\nMaintain exactly two backward-curving horns, dragon-shaped head, charcoal-black fur, muscular four-legged body, claws, intelligent eyes and spiral-tipped furry tail. No wings, no humanoid body, no clothing or armor. Preserve body proportions, movement direction, object positions, weather, lighting and background between scenes. No teleportation or unrelated events.\n\nENVIRONMENTAL INTERACTION:\nFootsteps, plants, leaves, branches, water, dust and soil must react naturally to contact. Every movement must have a visible physical cause.\n\nLIGHTING AND QUALITY:\n${cahaya}. Consistent light direction and shadows, detailed textures, cinematic depth, stable anatomy and smooth animation.\n\nNEGATIVE PROMPT:\nCharacter inconsistency, extra horns, missing horns, wings, humanoid body, bipedal walking, altered head, different fur color, missing fur, changed proportions, changed tail, distorted face, extra or missing limbs, twisted joints, malformed paws, floating feet, sliding, stiff or jerky animation, teleportation, duplicated characters, flickering, unstable lighting, inconsistent shadows, frame warping, visual glitches, excessive camera shake, random zoom, abrupt cuts, blurry subject, low resolution, text, subtitles, watermark, logo.\n\nFINAL VIDEO INSTRUCTIONS:\nCreate one coherent cinematic fantasy video. Follow exact scene count and timeline. Prioritize clear storytelling, natural movement, precise camera direction, believable environmental interaction and strict visual continuity.\n\nADDITIONAL DETAILS:\n${document.getElementById("tambahan").value.trim()||"No additional details. Follow the main story and cinematic instructions."}`;
+document.getElementById("hasil").style.display="block";document.getElementById("hasil").textContent=promptTerakhir;document.getElementById("salin").style.display="block";document.getElementById("simpan").style.display="block";}
+function salinPrompt(){if(!promptTerakhir)return;let a=document.createElement("textarea");a.value=promptTerakhir;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();alert("Prompt berhasil disalin!");}
+function simpanPrompt(){if(!promptTerakhir)return;let d=JSON.parse(localStorage.getItem("ragantara_history")||"[]");d.unshift({tanggal:new Date().toLocaleString("id-ID"),prompt:promptTerakhir});localStorage.setItem("ragantara_history",JSON.stringify(d.slice(0,50)));alert("Prompt berhasil disimpan!");}
+function tampilkanRiwayat(){let d=JSON.parse(localStorage.getItem("ragantara_history")||"[]"),w=document.getElementById("daftarRiwayat");w.innerHTML="";if(!d.length){w.innerHTML="<p>Belum ada prompt yang disimpan.</p>";return;}d.forEach((item,i)=>{let c=document.createElement("div");c.className="card";let p=document.createElement("p");p.className="small";p.textContent=item.tanggal;let t=document.createElement("p");t.textContent=item.prompt.substring(0,180)+"...";let b=document.createElement("button");b.className="action secondary";b.textContent="LIHAT / SALIN PROMPT";b.onclick=()=>{promptTerakhir=item.prompt;document.getElementById("hasil").textContent=item.prompt;document.getElementById("hasil").style.display="block";document.getElementById("salin").style.display="block";document.getElementById("simpan").style.display="block";showPage("buat",document.querySelector("nav button"));window.scrollTo(0,0);};let h=document.createElement("button");h.className="action delete";h.textContent="HAPUS";h.onclick=()=>{d.splice(i,1);localStorage.setItem("ragantara_history",JSON.stringify(d));tampilkanRiwayat();};c.append(p,t,b,h);w.append(c);});}
+function hapusSemua(){if(confirm("Yakin ingin menghapus semua riwayat?")){localStorage.removeItem("ragantara_history");tampilkanRiwayat();}}
+function salinKarakter(){let a=document.createElement("textarea");a.value=karakter;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();alert("Deskripsi karakter berhasil disalin!");}
+</script>
+</body></html>
